@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 
 import br.com.picpay.simple.domain.user.User;
 import br.com.picpay.simple.domain.user.UserType;
+import br.com.picpay.simple.dtos.UserDTO;
 import br.com.picpay.simple.repositories.UserRepository;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -24,8 +26,18 @@ public class UserService {
         }
     }
 
+    public List<User> getAllUsers(){
+        return this.repo.findAll();
+    }
+
     public User findUserById(Long id) throws Exception{
         return this.repo.findById(id).orElseThrow(() -> new Exception("Usuário não encontrado"));
+    }
+
+    public User createUser(UserDTO data){
+        User newUser = new User(data);
+        this.saveUser(newUser);
+        return newUser;
     }
 
     public User saveUser(User user){
